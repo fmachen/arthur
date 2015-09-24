@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Arthur Machen</title>
+        <style>
+            body{
+                background: #00ECB9;
+                text-align: center;
+                font-family: sans-serif;
+                font-weight: 100;
+            }
+
+            h1{
+                margin: 40px 0px 20px;
+                color: #396;
+                font-weight: 100;
+                font-size: 40px;
+            }
+
+            #clockdiv{
+                display: inline-block;
+                color: #fff;
+                text-align: center;
+                font-size: 30px;
+            }
+
+            #clockdiv > div{
+                display: inline-block;
+                padding: 10px;
+                background: #00BF96;
+                border-radius: 3px;
+            }
+
+            #clockdiv div > span{
+                display: inline-block;
+                padding: 15px;
+                background: #00816A;
+                border-radius: 3px;
+            }
+
+            .smalltext{
+                padding-top: 5px;
+                font-size: 16px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Arthur Machen</h1>
+        <div id="clockdiv">
+            <div>
+                <span class="years"></span>
+                <div class="smalltext">Ans</div>
+            </div>
+            <div>
+                <span class="months"></span>
+                <div class="smalltext">Mois</div>
+            </div>
+            <div>
+                <span class="days"></span>
+                <div class="smalltext">Jours</div>
+            </div>
+            <div>
+                <span class="hours"></span>
+                <div class="smalltext">Heures</div>
+            </div>
+            <div>
+                <span class="minutes"></span>
+                <div class="smalltext">Minutes</div>
+            </div>
+            <div>
+                <span class="seconds"></span>
+                <div class="smalltext">Secondes</div>
+            </div>
+        </div>
+        <script>
+            function getDiffYear(dateMin, dateMax) {
+                var diff = dateMax.getFullYear() - dateMin.getFullYear();
+                if (dateMax.getMonth() < dateMin.getMonth()) {
+                    diff--;
+                }
+                return diff;
+            }
+
+            function getDiffMonth(dateMin, dateMax) {
+                var diff = dateMax.getMonth() - dateMin.getMonth();
+                if (dateMax.getDate() < dateMin.getDate()) {
+                    diff--;
+                }
+                return diff;
+            }
+
+            function getDiffDay(dateMin, dateMax) {
+                var diff = dateMax.getDate() - dateMin.getDate();
+                if (diff < 0) {
+                    var year = dateMax.getFullYear();
+                    var month = dateMax.getMonth() - 1;
+                    if (month === -1) {
+                        month = 11;
+                        year--;
+                    }
+                    diff = new Date(year, month, 0).getDate() + diff;
+                }
+                return diff;
+            }
+
+            function getTimeCut(dateMin, dateMax) {
+                var t = Math.floor(dateMax.getTime() / 1000) - Math.floor(dateMin.getTime() / 1000);
+                var years = getDiffYear(dateMin, dateMax);
+                var months = getDiffMonth(dateMin, dateMax);
+                var days = getDiffDay(dateMin, dateMax);
+                var hours = Math.floor(t / (60 * 60)) % 24;
+                var minutes = (Math.floor(t / 60)) % 60;
+                var seconds = t % 60;
+                return {
+                    'total': t,
+                    'years': years,
+                    'months': months,
+                    'days': days,
+                    'hours': hours,
+                    'minutes': minutes,
+                    'seconds': seconds
+                };
+            }
+
+            function prefixWithZero(number) {
+                return ('0' + number).slice(-2);
+            }
+
+            function initializeClock(id, starttime) {
+                var dateStart = new Date(starttime);
+                var clock = document.getElementById(id);
+                var spanYears = clock.querySelector('.years');
+                var spanMonths = clock.querySelector('.months');
+                var spanDays = clock.querySelector('.days');
+                var spanHours = clock.querySelector('.hours');
+                var spanMinutes = clock.querySelector('.minutes');
+                var spanSeconds = clock.querySelector('.seconds');
+
+                function updateClock() {
+                    var t = getTimeCut(dateStart, new Date());
+                    spanYears.innerHTML = prefixWithZero(t.years);
+                    spanMonths.innerHTML = prefixWithZero(t.months);
+                    spanDays.innerHTML = prefixWithZero(t.days);
+                    spanHours.innerHTML = prefixWithZero(t.hours);
+                    spanMinutes.innerHTML = prefixWithZero(t.minutes);
+                    spanSeconds.innerHTML = prefixWithZero(t.seconds);
+                }
+
+                updateClock();
+                setInterval(updateClock, 1000);
+            }
+
+            var birthdate = 'Sat Aug 15 2015 08:12:00';
+            initializeClock('clockdiv', birthdate);
+        </script>
+    </body>
+</html>
