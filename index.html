@@ -82,6 +82,9 @@ h1{
 
     HowLongSince.prototype.getDiffMonth = function(dateMin, dateMax) {
         var diff = dateMax.getMonth() - dateMin.getMonth();
+        if (diff < 0) {
+            diff += 12;
+        }
         if (dateMax.getDate() < dateMin.getDate()) {
             diff--;
         }
