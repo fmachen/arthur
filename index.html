@@ -5,39 +5,39 @@
         <title>Arthur Machen</title>
         <link rel="icon" href="favicon-32.png">
         <style>
-body{
-    color: #e3f2fd;
-    background: #64b5f6;
-    text-align: center;
-    font-family: sans-serif;
-    font-weight: 100;
-}
-h1{
-    margin: 40px 0px 20px;
-    font-weight: 100;
-    font-size: 40px;
-}
-#clockdiv{
-    display: inline-block;
-    text-align: center;
-    font-size: 30px;
-}
-#clockdiv > div{
-    display: inline-block;
-    padding: 10px;
-    background: #1e88e5;
-    border-radius: 3px;
-}
-#clockdiv div > span{
-    display: inline-block;
-    padding: 15px;
-    background: #1976d2;
-    border-radius: 3px;
-}
-.smalltext{
-    padding-top: 5px;
-    font-size: 16px;
-}
+            body{
+                color: #e3f2fd;
+                background: #64b5f6;
+                text-align: center;
+                font-family: sans-serif;
+                font-weight: 100;
+            }
+            h1{
+                margin: 40px 0px 20px;
+                font-weight: 100;
+                font-size: 40px;
+            }
+            #clockdiv{
+                display: inline-block;
+                text-align: center;
+                font-size: 30px;
+            }
+            #clockdiv > div{
+                display: inline-block;
+                padding: 10px;
+                background: #1e88e5;
+                border-radius: 3px;
+            }
+            #clockdiv div > span{
+                display: inline-block;
+                padding: 15px;
+                background: #1976d2;
+                border-radius: 3px;
+            }
+            .smalltext{
+                padding-top: 5px;
+                font-size: 16px;
+            }
         </style>
     </head>
     <body>
@@ -69,93 +69,88 @@ h1{
             </div>
         </div>
         <script>
-(function () {
-    var HowLongSince = function() {}
+            (function () {
+                var HowLongSince = function () {}
 
-    HowLongSince.prototype.getDiffYear = function(dateMin, dateMax) {
-        var diff = dateMax.getFullYear() - dateMin.getFullYear();
-        if (dateMax.getMonth() < dateMin.getMonth()) {
-            diff--;
-        }
-        return diff;
-    }
+                HowLongSince.prototype.getDiffYear = function (dateMin, dateMax) {
+                    var diff = dateMax.getFullYear() - dateMin.getFullYear();
+                    if (dateMax.getMonth() < dateMin.getMonth()) {
+                        diff--;
+                    }
+                    return diff;
+                }
 
-    HowLongSince.prototype.getDiffMonth = function(dateMin, dateMax) {
-        var diff = dateMax.getMonth() - dateMin.getMonth();
-        if (diff < 0) {
-            diff += 12;
-        }
-        if (dateMax.getDate() < dateMin.getDate()) {
-            diff--;
-        }
-        return diff;
-    }
+                HowLongSince.prototype.getDiffMonth = function (dateMin, dateMax) {
+                    var diff = dateMax.getMonth() - dateMin.getMonth();
+                    if (diff < 0) {
+                        diff += 12;
+                    }
+                    if (dateMax.getDate() < dateMin.getDate()) {
+                        diff--;
+                    }
+                    return diff;
+                }
 
-    HowLongSince.prototype.getDiffDay = function(dateMin, dateMax) {
-        var diff = dateMax.getDate() - dateMin.getDate();
-        if (diff < 0) {
-            var year = dateMax.getFullYear();
-            var month = dateMax.getMonth() - 1;
-            if (month === -1) {
-                month = 11;
-                year--;
-            }
-            diff = new Date(year, month, 0).getDate() + diff;
-        }
-        return diff;
-    }
+                HowLongSince.prototype.getDiffDay = function (dateMin, dateMax) {
+                    var diff = dateMax.getDate() - dateMin.getDate();
+                    if (diff < 0) {
+                        var year = dateMax.getFullYear();
+                        var month = dateMax.getMonth() - 1;
+                        if (month === -1) {
+                            month = 11;
+                            year--;
+                        }
+                        diff = new Date(year, month, 0).getDate() + diff;
+                    }
+                    return diff;
+                }
 
-    HowLongSince.prototype.getTimeCut = function(dateMin, dateMax) {
-        var t = Math.floor(dateMax.getTime() / 1000) - Math.floor(dateMin.getTime() / 1000);
-        var years = this.getDiffYear(dateMin, dateMax);
-        var months = this.getDiffMonth(dateMin, dateMax);
-        var days = this.getDiffDay(dateMin, dateMax);
-        var hours = Math.floor(t / (60 * 60)) % 24;
-        var minutes = (Math.floor(t / 60)) % 60;
-        var seconds = t % 60;
-        return {
-            'total': t,
-            'years': years,
-            'months': months,
-            'days': days,
-            'hours': hours,
-            'minutes': minutes,
-            'seconds': seconds
-        };
-    }
+                HowLongSince.prototype.getTimeCut = function (dateMin, dateMax) {
+                    var t = Math.floor(dateMax.getTime() / 1000) - Math.floor(dateMin.getTime() / 1000);
+                    return {
+                        'total': t,
+                        'years': this.getDiffYear(dateMin, dateMax),
+                        'months': this.getDiffMonth(dateMin, dateMax),
+                        'days': this.getDiffDay(dateMin, dateMax),
+                        'hours': Math.floor(t / (60 * 60)) % 24,
+                        'minutes': (Math.floor(t / 60)) % 60,
+                        'seconds': t % 60
+                    };
+                }
 
-    function initializeClock(id, starttime) {
-        var howLong = new HowLongSince();
-        var dateStart = new Date(starttime);
-        var clock = document.getElementById(id);
-        var spanYears = clock.querySelector('.years');
-        var spanMonths = clock.querySelector('.months');
-        var spanDays = clock.querySelector('.days');
-        var spanHours = clock.querySelector('.hours');
-        var spanMinutes = clock.querySelector('.minutes');
-        var spanSeconds = clock.querySelector('.seconds');
+                function initializeClock(id, starttime) {
+                    var
+                            howLong = new HowLongSince(),
+                            dateStart = new Date(starttime),
+                            clock = document.getElementById(id),
+                            spanYears = clock.querySelector('.years'),
+                            spanMonths = clock.querySelector('.months'),
+                            spanDays = clock.querySelector('.days'),
+                            spanHours = clock.querySelector('.hours'),
+                            spanMinutes = clock.querySelector('.minutes'),
+                            spanSeconds = clock.querySelector('.seconds');
 
-        function prefixWithZero(number) {
-            return ('0' + number).slice(-2);
-        }
+                    function prefixWithZero(number) {
+                        return ('0' + number).slice(-2);
+                    }
 
-        function updateClock() {
-            var t = howLong.getTimeCut(dateStart, new Date());
-            spanYears.innerHTML = prefixWithZero(t.years);
-            spanMonths.innerHTML = prefixWithZero(t.months);
-            spanDays.innerHTML = prefixWithZero(t.days);
-            spanHours.innerHTML = prefixWithZero(t.hours);
-            spanMinutes.innerHTML = prefixWithZero(t.minutes);
-            spanSeconds.innerHTML = prefixWithZero(t.seconds);
-        }
+                    function updateClock() {
+                        var t = howLong.getTimeCut(dateStart, new Date());
+                        spanYears.innerHTML = prefixWithZero(t.years);
+                        spanMonths.innerHTML = prefixWithZero(t.months);
+                        spanDays.innerHTML = prefixWithZero(t.days);
+                        spanHours.innerHTML = prefixWithZero(t.hours);
+                        spanMinutes.innerHTML = prefixWithZero(t.minutes);
+                        spanSeconds.innerHTML = prefixWithZero(t.seconds);
+                    }
 
-        updateClock();
-        setInterval(updateClock, 1000);
-    }
+                    updateClock();
+                    setInterval(updateClock, 1000);
+                }
 
-    var birthdate = 'Sat Aug 15 2015 08:12:00';
-    initializeClock('clockdiv', birthdate);
-})();
+                var birthdate = 'Sat Aug 15 2015 08:12:00';
+                initializeClock('clockdiv', birthdate);
+            })();
         </script>
     </body>
 </html>
