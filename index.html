@@ -74,7 +74,11 @@
 
                 HowLongSince.prototype.getDiffYear = function (dateMin, dateMax) {
                     var diff = dateMax.getFullYear() - dateMin.getFullYear();
+                    console.log(dateMax.getDate(), dateMin.getDate())
                     if (dateMax.getMonth() < dateMin.getMonth()) {
+                        diff--;
+                    }
+                    if (dateMax.getMonth() == dateMin.getMonth() && dateMax.getDate() < dateMin.getDate()) {
                         diff--;
                     }
                     return diff;
