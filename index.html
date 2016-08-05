@@ -73,11 +73,11 @@
                 var HowLongSince = function () {}
 
                 HowLongSince.prototype.getDiffYear = function (dateMin, dateMax) {
-                    var diff = dateMax.getFullYear() - dateMin.getFullYear();
-                    if (dateMax.getMonth() < dateMin.getMonth()) {
-                        diff--;
-                    }
-                    if (dateMax.getMonth() == dateMin.getMonth() && dateMax.getDate() < dateMin.getDate()) {
+                    var diff = dateMax.getFullYear() - dateMin.getFullYear(),
+                    earlierInYear = dateMax.getMonth() < dateMin.getMonth(),
+                    earlierInMonth = dateMax.getMonth() == dateMin.getMonth() &&
+                                    dateMax.getDate() < dateMin.getDate();
+                    if (earlierInYear || earlierInMonth) {
                         diff--;
                     }
                     return diff;
