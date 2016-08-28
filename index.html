@@ -13,22 +13,22 @@
                 font-weight: 100;
             }
             h1{
-                margin: 40px 0px 20px;
+                margin: 40px 0 20px;
                 font-weight: 100;
                 font-size: 40px;
             }
-            #clockdiv{
+            #clockContainer{
                 display: inline-block;
                 text-align: center;
                 font-size: 30px;
             }
-            #clockdiv > div{
+            #clockContainer > div{
                 display: inline-block;
                 padding: 10px;
                 background: #1e88e5;
                 border-radius: 3px;
             }
-            #clockdiv div > span{
+            #clockContainer div > span{
                 display: inline-block;
                 padding: 15px;
                 background: #1976d2;
@@ -42,7 +42,7 @@
     </head>
     <body>
         <h1>Arthur Machen</h1>
-        <div id="clockdiv">
+        <div id="clockContainer">
             <div>
                 <span class="years"></span>
                 <div class="smalltext">Ans</div>
@@ -70,7 +70,7 @@
         </div>
         <script>
             (function (window, document) {
-                var HowLongSince = function () {}
+                var HowLongSince = function () {};
 
                 HowLongSince.prototype.getDiffYear = function (dateMin, dateMax) {
                     var diff = dateMax.getFullYear() - dateMin.getFullYear(),
@@ -81,7 +81,7 @@
                         diff--;
                     }
                     return diff;
-                }
+                };
 
                 HowLongSince.prototype.getDiffMonth = function (dateMin, dateMax) {
                     var diff = dateMax.getMonth() - dateMin.getMonth();
@@ -92,7 +92,7 @@
                         diff--;
                     }
                     return diff;
-                }
+                };
 
                 HowLongSince.prototype.getDiffDay = function (dateMin, dateMax) {
                     var diff = dateMax.getDate() - dateMin.getDate();
@@ -106,7 +106,7 @@
                         diff = new Date(year, month, 0).getDate() + diff;
                     }
                     return diff;
-                }
+                };
 
                 HowLongSince.prototype.getTimeCut = function (dateMin, dateMax) {
                     var t = Math.floor(dateMax.getTime() / 1000) - Math.floor(dateMin.getTime() / 1000);
@@ -119,7 +119,7 @@
                         'minutes': (Math.floor(t / 60)) % 60,
                         'seconds': t % 60
                     };
-                }
+                };
 
                 function initializeClock(id, starttime) {
                     var
@@ -151,8 +151,8 @@
                     window.setInterval(updateClock, 1000);
                 }
 
-                var birthdate = 'Sat Aug 15 2015 08:12:00';
-                initializeClock('clockdiv', birthdate);
+                var birthday = 'Sat Aug 15 2015 08:12:00';
+                initializeClock('clockContainer', birthday);
             })(window, document);
         </script>
     </body>
